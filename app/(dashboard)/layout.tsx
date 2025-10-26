@@ -1,7 +1,14 @@
+import MainHeader from "@/components/navigations/main-header";
+
 export default function DashboardLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
-    return <div>{children}</div>;
+    return (
+        <main>
+            <MainHeader />
+            {children}
+        </main>
+    );
 }

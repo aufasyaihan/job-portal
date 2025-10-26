@@ -1,5 +1,3 @@
-import LogoutButton from "@/components/logout-button";
-
 export default function DashboardPage() {
-    return <LogoutButton />;
+    return <div>Halo</div>
 }

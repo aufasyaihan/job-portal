@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "@/contexts/auth-context";
 
 const defaultUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`
@@ -26,7 +27,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning className="w-full h-dvh">
             <body className={`${nunitoSans.className} antialiased w-full h-full`}>
-                {children}
+                <AuthProvider>{children}</AuthProvider>
             </body>
         </html>
     );
