@@ -8,9 +8,10 @@ import {
     DropdownSeparator,
     DropdownTrigger,
 } from "../ui/dropdown";
-import ProfileIcon from "../icons/profile-icon";
-import { LogOut, User, Settings } from "lucide-react";
+import profile from "@/assets/avatar.png";
+import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function ProfileDropdown() {
     const { user, loading, signOut } = useAuth();
@@ -31,35 +32,31 @@ export default function ProfileDropdown() {
         router.push("/auth/login");
     };
 
+    const avatarUrl = user.user_metadata?.avatar_url;
+
     return (
         <Dropdown>
             <DropdownTrigger asChild>
-                <button className="cursor-pointer hover:opacity-80 transition-opacity h-fit">
-                    <ProfileIcon className="size-9" />
+                <button className="relative size-8 cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-30 overflow-hidden ">
+                    <Image
+                        src={avatarUrl || profile}
+                        alt="profile-image"
+                        className="object-cover"
+                        fill
+                        sizes="32px"
+                    />
                 </button>
             </DropdownTrigger>
             <DropdownContent align="end" className="w-56">
                 <div className="px-4 py-3">
                     <p className="text-sm font-medium">{user.email}</p>
                     <p className="text-xs text-gray-500">
-                        {user.user_metadata?.full_name || "User"}
+                        {user.user_metadata?.first_name &&
+                        user.user_metadata?.last_name
+                            ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`
+                            : user.user_metadata?.full_name || "User"}
                     </p>
                 </div>
-                <DropdownSeparator />
-                <DropdownItem
-                    onClick={() => router.push("/profile")}
-                    className="gap-2"
-                >
-                    <User className="size-4" />
-                    <span>Profile</span>
-                </DropdownItem>
-                <DropdownItem
-                    onClick={() => router.push("/settings")}
-                    className="gap-2"
-                >
-                    <Settings className="size-4" />
-                    <span>Pengaturan</span>
-                </DropdownItem>
                 <DropdownSeparator />
                 <DropdownItem
                     onClick={handleSignOut}

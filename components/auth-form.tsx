@@ -15,10 +15,35 @@ import {
     registerWithLink,
 } from "@/app/actions/auth";
 import Error from "./error";
+import { useSearchParams } from "next/navigation";
 
 interface AuthFormProps {
     type?: "login" | "register";
 }
+
+const getErrorMessage = (
+    errorCode: string | null
+): React.JSX.Element | null => {
+    if (!errorCode) return null;
+
+    switch (errorCode) {
+        case "expired_link":
+            return (
+                <p>
+                    Link <span className="font-bold">sudah kadaluarsa</span>,
+                    silahkan login kembali
+                </p>
+            );
+        case "callback_error":
+            return (
+                <p>
+                    Terjadi kesalahan saat memproses link. Silahkan coba lagi.
+                </p>
+            );
+        default:
+            return null;
+    }
+};
 
 export default function AuthForm({ type = "login" }: AuthFormProps) {
     const [method, setMethod] = useState<"link" | "password">("password");
@@ -34,21 +59,68 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
     );
 
     const [email, setEmail] = useState("");
-    const [emailStatus, setEmailStatus] = useState<"success" | "error" | "default">("default");
+    const [emailStatus, setEmailStatus] = useState<
+        "success" | "error" | "default"
+    >("default");
     const [emailMessage, setEmailMessage] = useState("");
+    const searchParams = useSearchParams();
+    const [urlError, setUrlError] = useState<string | null>(null);
+
+    // Check for errors in both query params and hash
+    useEffect(() => {
+        // Check query params first
+        const errorFromQuery = searchParams.get("error");
+
+        if (errorFromQuery) {
+            setUrlError(errorFromQuery);
+            return;
+        }
+
+        if (typeof window !== "undefined" && window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            const hashParams = new URLSearchParams(hash);
+
+            const error = hashParams.get("error");
+            const errorCode = hashParams.get("error_code");
+            const errorDescription = hashParams.get("error_description");
+
+            if (
+                errorCode === "otp_expired" ||
+                error === "access_denied" ||
+                errorDescription?.toLowerCase().includes("expired") ||
+                errorDescription?.toLowerCase().includes("invalid")
+            ) {
+                setUrlError("expired_link");
+                window.history.replaceState(
+                    null,
+                    "",
+                    window.location.pathname + window.location.search
+                );
+            } else if (error) {
+                setUrlError("callback_error");
+                window.history.replaceState(
+                    null,
+                    "",
+                    window.location.pathname + window.location.search
+                );
+            }
+        }
+    }, [searchParams]);
+
+    const urlErrorMessage = getErrorMessage(urlError);
 
     useEffect(() => {
         if (state?.message || state?.errors) {
             console.log("Form state updated:", {
                 success: state?.success,
                 message: state?.message,
-                errors: state?.errors
+                errors: state?.errors,
             });
         }
     }, [state]);
 
     useEffect(() => {
-        if (type !== "register" || !email) {
+        if (!email) {
             setEmailStatus("default");
             setEmailMessage("");
             return;
@@ -57,7 +129,7 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
         const timeoutId = setTimeout(() => {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const isValid = emailRegex.test(email);
-            
+
             if (!isValid) {
                 setEmailStatus("error");
                 setEmailMessage("Alamat email tidak valid");
@@ -77,18 +149,23 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
     return (
         <form action={formAction}>
             <div className="flex flex-col gap-4">
+                {urlErrorMessage && <Error message={urlErrorMessage} />}
+
                 {state?.message && !state?.success && (
                     <>
                         {state.message.includes("sudah terdaftar") ? (
-                            <Error 
+                            <Error
                                 message={
                                     <span>
                                         {state.message}{" "}
-                                        <Link href="/auth/login" className="text-danger-main font-bold">
+                                        <Link
+                                            href="/auth/login"
+                                            className="text-danger-main font-bold"
+                                        >
                                             Masuk
                                         </Link>
                                     </span>
-                                } 
+                                }
                             />
                         ) : (
                             <Error message={state.message} />
@@ -112,8 +189,8 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
                         disabled={isPending}
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        status={type === "register" ? emailStatus : "default"}
-                        statusMessage={type === "register" ? emailMessage : undefined}
+                        status={emailStatus}
+                        statusMessage={emailMessage}
                     />
                     {state?.errors?.email && (
                         <p className="text-sm text-red-600">

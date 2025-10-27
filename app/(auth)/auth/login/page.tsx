@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default async function LoginPage() {
     return (
         <>
             <RakaminIcons />

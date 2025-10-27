@@ -1,6 +1,12 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import {
+    createContext,
+    useContext,
+    useEffect,
+    useState,
+    useCallback,
+} from "react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
 
@@ -8,7 +14,7 @@ interface AuthContextType {
     user: User | null;
     loading: boolean;
     signOut: () => Promise<void>;
-    refreshUser: () => Promise<void>;
+    getUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -18,45 +24,75 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [loading, setLoading] = useState(true);
     const supabase = createClient();
 
-    const refreshUser = async () => {
+    const getUser = useCallback(async () => {
         try {
+            setLoading(true);
             const {
-                data: { user },
+                data: { user: authUser },
             } = await supabase.auth.getUser();
-            setUser(user);
+
+            if (!authUser) {
+                setUser(null);
+                return;
+            }
+
+            const { data: userData, error } = await supabase
+                .from("profiles")
+                .select(
+                    `id,
+                    first_name,
+                    last_name,
+                    avatar_url,
+                    role:role_id (name)
+                    `
+                )
+                .eq("id", authUser.id)
+                .single();
+                
+            if (error) {
+                console.error("Error fetching user data:", error);
+                setUser(authUser);
+                return;
+            }
+
+            if (userData) {
+                setUser({
+                    ...authUser,
+                    user_metadata: {
+                        ...authUser.user_metadata,
+                        ...userData,
+                    },
+                });
+            } else {
+                console.warn("No profile found for user:", authUser.id);
+                setUser(authUser);
+            }
         } catch (error) {
-            console.error("Error refreshing user:", error);
+            console.error("Error getting user:", error);
             setUser(null);
+        } finally {
+            setLoading(false);
         }
-    };
+    }, [supabase]);
 
     useEffect(() => {
-        const initializeAuth = async () => {
-            try {
-                const {
-                    data: { user },
-                } = await supabase.auth.getUser();
-                setUser(user);
-            } catch (error) {
-                console.error("Error getting user:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        initializeAuth();
+        getUser();
 
         const {
             data: { subscription },
         } = supabase.auth.onAuthStateChange(async (event, session) => {
-            setUser(session?.user ?? null);
-            setLoading(false);
+            if (session?.user) {
+                getUser();
+            } else {
+                setUser(null);
+                setLoading(false);
+            }
         });
 
         return () => {
             subscription.unsubscribe();
         };
-    }, [supabase.auth]);
+    }, [getUser, supabase.auth]);
 
     const signOut = async () => {
         await supabase.auth.signOut();
@@ -69,7 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 user,
                 loading,
                 signOut,
-                refreshUser,
+                getUser,
             }}
         >
             {children}
