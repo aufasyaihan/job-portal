@@ -37,13 +37,13 @@ export default function ProfileDropdown() {
     return (
         <Dropdown>
             <DropdownTrigger asChild>
-                <button className="relative size-8 cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-30 overflow-hidden ">
+                <button className="relative h-full aspect-square cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-40 overflow-hidden">
                     <Image
                         src={avatarUrl || profile}
                         alt="profile-image"
                         className="object-cover"
                         fill
-                        sizes="32px"
+                        sizes="48px"
                     />
                 </button>
             </DropdownTrigger>
