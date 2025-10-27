@@ -1,3 +1,5 @@
+import { redirect } from "next/navigation";
+
 export default function DashboardPage() {
-    return <div>Halo</div>
+    return redirect("/job-list");
 }

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import EmailSent from "@/components/icons/icons";
+import EmailSent from "@/components/icons/email-sent";
 
 export default async function EmailSentPage({
     searchParams,

@@ -19,7 +19,7 @@ export default function ProfileDropdown() {
 
     if (loading) {
         return (
-            <div className="size-8 rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-6 aspect-square rounded-full bg-gray-200 animate-pulse" />
         );
     }
 
@@ -37,7 +37,7 @@ export default function ProfileDropdown() {
     return (
         <Dropdown>
             <DropdownTrigger asChild>
-                <button className="relative h-full aspect-square cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-40 overflow-hidden">
+                <button className="relative h-full aspect-square cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-40 overflow-hidden mr-5">
                     <Image
                         src={avatarUrl || profile}
                         alt="profile-image"
