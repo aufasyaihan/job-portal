@@ -20,8 +20,6 @@ export default function MainHeader({
 }) {
     const { user } = useAuth();
     const isAdmin = user?.user_metadata.role.name === "admin";
-    console.log(breadcrumbs);
-
     return (
         <header className="sticky top-0 z-10 px-[120px] py-3 shadow-xs w-full">
             <nav

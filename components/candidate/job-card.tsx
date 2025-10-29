@@ -41,7 +41,7 @@ export default function JobCard({ job }: JobCardProps) {
                     />
                 </div>
                 <div className="flex flex-col flex-1">
-                    <CardTitle className="text-base">{job.title}</CardTitle>
+                    <CardTitle className="text-base capitalize">{job.title}</CardTitle>
                     <p className="text-sm">{job.company || "Company"}</p>
                 </div>
             </CardHeader>
