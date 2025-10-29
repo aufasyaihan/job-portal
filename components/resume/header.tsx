@@ -9,7 +9,7 @@ export default function ResumeHeader() {
     const router = useRouter();
 
     return (
-        <CardHeader className="flex flex-row items-center gap-4 flex-shrink-0">
+        <CardHeader className="flex flex-row items-center gap-4 shrink-0">
             <Button variant="outline" className="p-1 h-fit w-fit" size="icon" type="button" onClick={() => router.back()}>
                 <ArrowLeft className="size-4" />
             </Button>

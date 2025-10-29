@@ -15,7 +15,7 @@ export function Input({
         <div className="w-full">
             <input
                 className={cn(
-                    "border-2 rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-primary-main",
+                    "border-2 rounded-lg p-2 w-full focus:outline-hidden focus:ring-2 focus:ring-primary-main",
                     status === "error" && "border-red-500 focus:ring-red-500",
                     status === "success" &&
                         "border-neutral-40 focus:ring-primary-main",

@@ -20,7 +20,7 @@ export default function ResumePage() {
         <form className="flex-1">
             <Card className="w-full flex-1 flex flex-col overflow-hidden max-h-[calc(100dvh-11.83rem)] rounded-none shadow-none">
                 <ResumeHeader />
-                <CardContent className="overflow-y-auto flex-1 scrollbar">
+                <CardContent className="overflow-y-auto flex-1 scrollbar pb-2">
                     <div className="flex flex-col gap-4 px-6">
                         <p className="text-danger-main font-bold text-xs">
                             * Required
@@ -32,6 +32,7 @@ export default function ResumePage() {
                                 variant="outline"
                                 size="sm"
                                 className="w-fit"
+                                type="button"
                             >
                                 <Upload /> Take a Picture
                             </Button>

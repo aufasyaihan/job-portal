@@ -17,31 +17,41 @@ export default function JobDetail() {
 
     return (
         <Card className="flex-1 shadow-none">
-            <CardHeader className="flex flex-row items-start gap-4 justify-between border-b border-neutral-40 pb-6">
-                <div className="flex flex-row items-start gap-4 flex-1">
-                    <div className="relative aspect-square w-1/6 max-w-12 border border-neutal-40 rounded-md overflow-hidden">
-                        <Image
-                            src={selectedJob.companyLogo || rakamin}
-                            alt={`${selectedJob.company || "Company"} logo`}
-                            fill
-                            sizes="48px"
-                        />
-                    </div>
-                    <div className="flex flex-col flex-1 gap-2">
-                        <p className="bg-success-main px-2 py-0.5 w-fit text-white rounded-sm text-xs">
-                            Full-Time
-                        </p>
-                        <div className="flex flex-col flex-1">
-                            <CardTitle className="text-base">
-                                {selectedJob.title}
-                            </CardTitle>
-                            <p className="text-sm">
-                                {selectedJob.company || "Company"}
+            <CardHeader className="flex flex-col gap-6">
+                <div className="flex flex-row items-start gap-4 justify-between w-full">
+                    <div className="flex flex-row items-start gap-4 flex-1">
+                        <div className="relative aspect-square w-1/6 max-w-12 border border-neutal-40 rounded-md overflow-hidden">
+                            <Image
+                                src={selectedJob.companyLogo || rakamin}
+                                alt={`${selectedJob.company || "Company"} logo`}
+                                fill
+                                sizes="48px"
+                            />
+                        </div>
+                        <div className="flex flex-col flex-1 gap-2">
+                            <p className="bg-success-main px-2 py-0.5 w-fit text-white rounded-sm text-xs">
+                                Full-Time
                             </p>
+                            <div className="flex flex-col flex-1">
+                                <CardTitle className="text-base">
+                                    {selectedJob.title}
+                                </CardTitle>
+                                <p className="text-sm">
+                                    {selectedJob.company || "Company"}
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    <Button
+                        variant="secondary"
+                        onClick={() => router.push("/resume")}
+                    >
+                        Apply
+                    </Button>
                 </div>
-                <Button variant="secondary" onClick={() => router.push("/resume")}>Apply</Button>
+                <div className="w-full">
+                    <hr className=" border-dashed border-neutral-40" />
+                </div>
             </CardHeader>
             <CardContent>
                 {selectedJob.description &&

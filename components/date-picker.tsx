@@ -3,7 +3,7 @@
 import { Calendar } from "@/components/ui/calendar";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { CalendarDays } from "lucide-react";
+import { CalendarDays, ChevronDown } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,9 @@ export default function DatePicker({
                 id={id}
                 value={date ? date.toISOString().split("T")[0] : ""}
                 onChange={(e) =>
-                    setDate(e.target.value ? new Date(e.target.value) : undefined)
+                    setDate(
+                        e.target.value ? new Date(e.target.value) : undefined
+                    )
                 }
                 placeholder={placeholder}
                 className="hidden sr-only"
@@ -37,7 +39,7 @@ export default function DatePicker({
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger
                     className={cn(
-                        "inline-flex justify-between items-center w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-left text-xs focus:border-primary-main focus:outline-none focus:ring-1 focus:ring-primary-main"
+                        "inline-flex justify-between items-center w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-left text-xs focus:border-primary-main focus:outline-hidden focus:ring-1 focus:ring-primary-main"
                     )}
                 >
                     <span className="flex gap-2 items-center">
@@ -54,6 +56,12 @@ export default function DatePicker({
                             </span>
                         )}
                     </span>
+                    <ChevronDown
+                        className={cn(
+                            "size-4 transition-transform ease-in-out duration-200",
+                            open ? "rotate-180" : ""
+                        )}
+                    />
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0" align="start">
                     <Calendar

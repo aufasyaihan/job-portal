@@ -45,13 +45,17 @@ export default function JobCard({ job }: JobCardProps) {
                     <p className="text-sm">{job.company || "Company"}</p>
                 </div>
             </CardHeader>
-            <hr className="w-full border-dashed border-neutral-40" />
+            <div className="px-6">
+                <hr className="w-full border-dashed border-neutral-40" />
+            </div>
             <CardContent>
                 <div className="flex flex-col gap-2">
-                        <div className="flex gap-1 items-center">
-                            <MapPin className="size-4" />
-                            <p className="text-sm">{job.location || "Jakarta Selatan"}</p>
-                        </div>
+                    <div className="flex gap-1 items-center">
+                        <MapPin className="size-4" />
+                        <p className="text-sm">
+                            {job.location || "Jakarta Selatan"}
+                        </p>
+                    </div>
                     <div className="flex gap-1 items-center">
                         <Banknote className="size-4" />
                         <p className="text-sm">{displaySalary}</p>

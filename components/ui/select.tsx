@@ -117,7 +117,7 @@ function SelectTrigger({
             data-placeholder={!value ? "" : undefined}
             onClick={handleClick}
             className={cn(
-                "border-neutral-40 border-2 data-[placeholder]:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-full items-center justify-between gap-2 rounded-md bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-xs transition-[color,box-shadow] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-10 data-[size=sm]:h-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                "border-neutral-40 border-2 data-placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex w-full items-center justify-between gap-2 rounded-md bg-transparent px-3 py-2 text-sm whitespace-nowrap shadow-2xs transition-[color,box-shadow] outline-hidden focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-10 data-[size=sm]:h-8 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
                 className
             )}
             {...props}
@@ -125,7 +125,7 @@ function SelectTrigger({
             {children}
             <ChevronDownIcon
                 className={cn(
-                    "size-4 opacity-50 transition-transform",
+                    "size-4 transition-transform",
                     open && "rotate-180"
                 )}
             />
@@ -217,7 +217,7 @@ function SelectContent({
             data-slot="select-content"
             data-position={dropdownPosition}
             className={cn(
-                "bg-popover text-popover-foreground animate-in fade-in-0 zoom-in-95 absolute z-50 max-h-96 min-w-[8rem] w-full overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
+                "bg-popover text-popover-foreground animate-in fade-in-0 zoom-in-95 absolute z-50 max-h-96 min-w-32 w-full overflow-x-hidden overflow-y-auto rounded-md border shadow-md",
                 dropdownPosition === "bottom" && "mt-1 slide-in-from-top-2",
                 dropdownPosition === "top" && "mb-1 bottom-full slide-in-from-bottom-2",
                 position === "popper" && dropdownPosition === "bottom" && "translate-y-1",
@@ -275,7 +275,7 @@ function SelectItem({
             data-disabled={disabled ? "" : undefined}
             onClick={handleClick}
             className={cn(
-                "focus:bg-accent focus:text-accent-foreground relative flex w-full items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none select-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 font-normal",
+                "focus:bg-accent focus:text-accent-foreground relative flex w-full items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none hover:bg-accent hover:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 font-normal",
                 className
             )}
         >

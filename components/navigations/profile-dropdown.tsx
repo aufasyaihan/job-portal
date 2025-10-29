@@ -4,8 +4,14 @@ import { useAuth } from "@/contexts/auth-context";
 import profile from "@/assets/avatar.png";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 export default function ProfileDropdown() {
     const { user, loading, signOut } = useAuth();
@@ -13,7 +19,7 @@ export default function ProfileDropdown() {
 
     if (loading) {
         return (
-            <div className="h-6 aspect-square rounded-full bg-gray-200 animate-pulse" />
+            <div className="h-8 aspect-square rounded-full bg-gray-200 animate-pulse" />
         );
     }
 
@@ -31,15 +37,14 @@ export default function ProfileDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <button className="relative h-full aspect-square cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-40 overflow-hidden mr-5">
-                    <Image
-                        src={avatarUrl || profile}
+                <Avatar>
+                    <AvatarImage
+                        src={avatarUrl || profile.src}
                         alt="profile-image"
-                        className="object-cover"
-                        fill
-                        sizes="48px"
+                        className="object-cover border-2 border-neutral-40"
                     />
-                </button>
+                    <AvatarFallback>RK</AvatarFallback>
+                </Avatar>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
                 <div className="px-4 py-3">
@@ -54,9 +59,10 @@ export default function ProfileDropdown() {
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="gap-2 text-red-600 hover:bg-red-50"
+                    variant="destructive"
+                    className="cursor-pointer"
                 >
-                    <LogOut className="size-4" />
+                    <LogOut className="size-4 text-danger-main" />
                     <span>Keluar</span>
                 </DropdownMenuItem>
             </DropdownMenuContent>

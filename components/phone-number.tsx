@@ -13,8 +13,7 @@ import {
     CommandItem,
     CommandList,
 } from "./ui/command";
-import { Check, ChevronDown } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { ChevronDown } from "lucide-react";
 
 export default function PhoneNumberInput() {
     const [selectedCountry, setSelectedCountry] = useState("ID");
@@ -30,14 +29,14 @@ export default function PhoneNumberInput() {
                 <PopoverTrigger className="flex items-center gap-2 px-2 hover:bg-gray-50 rounded transition-colors">
                     <Flag
                         code={selectedCountry}
-                        className="w-5 h-4 object-cover rounded-sm border border-neutral-40"
+                        className="w-4 aspect-square border border-neutral-40 object-cover rounded-full"
                     />
-                    <ChevronDown className="size-7 text-neutral-100" />
+                    <ChevronDown className="size-5 text-neutral-100" />
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[346px]" align="start">
                     <Command>
                         <CommandInput placeholder="Search country..." />
-                        <CommandList className="max-h-[100px] scrollbar">
+                        <CommandList className="scrollbar">
                             <CommandEmpty>No country found.</CommandEmpty>
                             <CommandGroup>
                                 {countryCodes.map((country) => (
@@ -51,7 +50,7 @@ export default function PhoneNumberInput() {
                                     >
                                         <Flag
                                             code={country.code}
-                                            className="w-5 h-4 object-cover rounded-sm"
+                                            className="w-4 aspect-square border border-neutral-40 object-cover rounded-full"
                                         />
                                         <span className="flex-1">
                                             {country.name}
@@ -59,14 +58,6 @@ export default function PhoneNumberInput() {
                                         <span className="text-gray-500 text-xs">
                                             {country.dial_code}
                                         </span>
-                                        <Check
-                                            className={cn(
-                                                "size-4",
-                                                selectedCountry === country.code
-                                                    ? "opacity-100"
-                                                    : "opacity-0"
-                                            )}
-                                        />
                                     </CommandItem>
                                 ))}
                             </CommandGroup>
@@ -74,7 +65,7 @@ export default function PhoneNumberInput() {
                     </Command>
                 </PopoverContent>
             </Popover>
-            <div className="bg-neutral-40 w-px h-full flex-shrink-0" />
+            <div className="bg-neutral-40 w-px h-full shrink-0" />
             <p className="text-neutral-90">
                 {selectedCountryData?.dial_code || "+62"}
             </p>

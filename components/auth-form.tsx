@@ -16,6 +16,7 @@ import {
 } from "@/app/actions/auth";
 import Error from "./error";
 import { useSearchParams } from "next/navigation";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 interface AuthFormProps {
     type?: "login" | "register";
@@ -66,9 +67,7 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
     const searchParams = useSearchParams();
     const [urlError, setUrlError] = useState<string | null>(null);
 
-    // Check for errors in both query params and hash
     useEffect(() => {
-        // Check query params first
         const errorFromQuery = searchParams.get("error");
 
         if (errorFromQuery) {
@@ -178,9 +177,33 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
                 )}
 
                 <div className="flex flex-col gap-2">
-                    <Label htmlFor="email" className="text-sm">
-                        Email
-                    </Label>
+                    {method === "password" ? (
+                        <Tooltip>
+                            <TooltipTrigger asChild className="w-fit">
+                                <Label htmlFor="email" className="text-sm">
+                                    Email
+                                </Label>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                side="right"
+                                className="max-w-[377px]"
+                            >
+                                <p className="leading-tight">
+                                    Fitur login dengan kata sandi akan dihapus.
+                                    Pastikan email mu{" "}
+                                    <span className="font-bold">valid</span>{" "}
+                                    untuk
+                                    <span className="font-bold">
+                                        login melalui email atau Google
+                                    </span>
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
+                    ) : (
+                        <Label htmlFor="email" className="text-sm">
+                            Email
+                        </Label>
+                    )}
                     <Input
                         id="email"
                         name="email"
