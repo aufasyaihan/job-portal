@@ -1,109 +1,191 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+<h1 align="center">Job Portal</h1>
 
 <p align="center">
- The fastest way to build apps with Next.js and Supabase
+  Best way to find your dream job - A modern job portal with AI-powered features
 </p>
 
 <p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
+  <a href="#project-overview"><strong>Project Overview</strong></a> ·
+  <a href="#tech-stack-used"><strong>Tech Stack</strong></a> ·
+  <a href="#how-to-run-locally"><strong>Run Locally</strong></a> ·
+  <a href="#features"><strong>Features</strong></a>
 </p>
 <br/>
 
-## Features
+## Project Overview
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+**Job Portal** is a comprehensive web application that connects job seekers with employers. The platform provides a seamless experience for both candidates and administrators, featuring modern UI/UX design and innovative features.
 
-## Demo
+### Key Capabilities:
+- **For Candidates**: Browse job listings, submit resumes with profile photos, and track application status
+- **For Admins**: Post job openings, manage listings, view candidate applications, and track recruitment metrics
+- **Authentication**: Secure role-based access control with email-based authentication via Supabase
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+## Tech Stack Used
 
-## Deploy to Vercel
+### Frontend
+- **[Next.js 16](https://nextjs.org)** - React framework with App Router and Server Components
+- **[React 19](https://react.dev)** - Latest React with enhanced hooks and concurrent features
+- **[TypeScript](https://www.typescriptlang.org)** - Type-safe development
+- **[Tailwind CSS](https://tailwindcss.com)** - Utility-first CSS framework
+- **[shadcn/ui](https://ui.shadcn.com)** - Beautiful, accessible component library
+- **[Radix UI](https://www.radix-ui.com)** - Unstyled, accessible UI primitives
 
-Vercel deployment will guide you through creating a Supabase account and project.
+### Backend & Database
+- **[Supabase](https://supabase.com)** - Backend-as-a-Service (PostgreSQL database, authentication, storage)
+- **[@supabase/ssr](https://github.com/supabase/auth-helpers)** - Cookie-based authentication for Next.js
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+### Computer Vision
+- **[react-webcam](https://www.npmjs.com/package/react-webcam)** - Webcam integration
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+### Validation & Forms
+- **[Zod](https://zod.dev)** - TypeScript-first schema validation
+- **React Server Actions** - Form handling and server-side mutations
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+### UI Components & Icons
+- **[Lucide React](https://lucide.dev)** - Beautiful icon library
+- **[React Icons](https://react-icons.github.io/react-icons)** - Additional icon sets
+- **[date-fns](https://date-fns.org)** - Modern date utility library
+- **[react-day-picker](https://react-day-picker.js.org)** - Date picker component
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+### Development Tools
+- **[Turbopack](https://turbo.build/pack)** - Fast bundler for Next.js development
+- **[ESLint](https://eslint.org)** - Code linting and quality checks
+- **[PostCSS](https://postcss.org)** - CSS processing
 
-## Clone and run locally
+## How to Run Locally
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+### Prerequisites
+- Node.js 18+ installed
+- npm, yarn, or pnpm package manager
+- A Supabase account (free tier available)
 
-2. Create a Next.js app using the Supabase Starter template npx command
+### Installation Steps
 
+1. **Clone the repository**
    ```bash
-   npx create-next-app --example with-supabase with-supabase-app
+   git clone <your-repo-url>
+   cd job-portal
    ```
 
+2. **Install dependencies**
    ```bash
-   yarn create next-app --example with-supabase with-supabase-app
+   npm install
+   # or
+   yarn install
+   # or
+   pnpm install
    ```
 
-   ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
-   ```
+3. **Set up Supabase**
+   - Create a new project at [supabase.com/dashboard](https://supabase.com/dashboard)
+   - Go to Project Settings → API
+   - Copy your project URL and anon/public key
 
-3. Use `cd` to change into the app's directory
+4. **Configure environment variables**
+   - Copy `.env.example` to `.env.local`:
+     ```bash
+     cp .env.example .env.local
+     ```
+   - Update `.env.local` with your Supabase credentials:
+     ```env
+     NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
+     NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=your-supabase-anon-key
+     NEXT_PUBLIC_SITE_URL=http://localhost:3000
+     ```
 
-   ```bash
-   cd with-supabase-app
-   ```
+5. **Set up the database schema**
+   - In your Supabase dashboard, go to the SQL Editor
+   - Run the SQL schema migrations to create necessary tables (jobs, candidates, users, etc.)
+   - Set up proper Row Level Security (RLS) policies for data protection
 
-4. Rename `.env.example` to `.env.local` and update the following:
-
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
-
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
-
-5. You can now run the Next.js local development server:
-
+6. **Run the development server**
    ```bash
    npm run dev
+   # or
+   yarn dev
+   # or
+   pnpm dev
    ```
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+7. **Open the application**
+   - Navigate to [http://localhost:3000](http://localhost:3000)
+   - The app should now be running with hot-reload enabled
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+### Build for Production
+```bash
+npm run build
+npm start
+```
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+## Features
 
-## Feedback and issues
+### Authentication & Authorization
+- ✅ Email-based authentication with Supabase
+- ✅ Role-based access control (Admin/User roles)
+- ✅ Cookie-based session management across the entire Next.js stack
+- ✅ Secure authentication flow with protected routes
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+### For Job Seekers
+- 📋 Browse comprehensive job listings with search and filters
+- 📄 Submit detailed resumes with personal information
+- 🖼️ Upload or capture profile photos with webcam
+- 📱 Responsive design for mobile and desktop
+- ✉️ Email confirmation after successful submission
 
-## More Supabase examples
+### For Administrators
+- 📝 Create and manage job openings
+- 👥 View candidate applications and resumes
+- 📊 Track application metrics and recruitment progress
+- 🔍 Search and filter through candidates
+- 🏷️ Tag and categorize job listings
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+### Technical Features
+- ⚡ Next.js App Router with Server Components
+- 🎨 Modern UI with Tailwind CSS and shadcn/ui
+- 🔐 Type-safe development with TypeScript
+- 📱 Fully responsive design
+- ♿ Accessible components with Radix UI
+- 🚀 Optimized performance with Turbopack
+- 🤖 MediaPipe hand gesture detection
+- 🎥 Real-time webcam integration
+- ✨ Smooth animations and transitions
+
+## Project Structure
+
+```
+job-portal/
+├── app/                      # Next.js App Router
+│   ├── (auth)/              # Authentication routes
+│   ├── (dashboard)/         # Protected dashboard routes
+│   ├── actions/             # Server actions
+│   └── resume/              # Resume submission
+├── components/              # React components
+│   ├── ui/                  # shadcn/ui components
+│   ├── admin/               # Admin-specific components
+│   ├── candidate/           # Candidate-specific components
+│   └── icons/               # Custom icons
+├── contexts/                # React contexts
+├── data-access-layer/       # Database queries
+├── lib/                     # Utilities and helpers
+│   ├── supabase/           # Supabase client configuration
+│   └── validation/         # Zod schemas
+├── types/                   # TypeScript type definitions
+└── public/                  # Static assets
+```
+
+## Environment Variables
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Your Supabase project URL | Yes |
+| `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | Your Supabase anon/public key | Yes |
+| `NEXT_PUBLIC_SITE_URL` | Your application URL | Yes |
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
