@@ -2,27 +2,40 @@
 
 import { Label } from "@radix-ui/react-label";
 import { Input } from "./ui/input";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CheckCircle, TriangleAlert } from "./icons/validation";
 import { cn } from "@/lib/utils";
 
-interface LinkInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface LinkInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
     label: string;
     id: string;
     className?: string;
+    value?: string;
+    onChange?: (value: string) => void;
+    error?: string;
 }
 
 export default function LinkInput({
     label,
     id,
     className,
+    value: propValue,
+    onChange,
+    error,
     ...props
 }: LinkInputProps) {
-    const [url, setUrl] = useState("");
+    const [url, setUrl] = useState(propValue || "");
     const [isValidating, setIsValidating] = useState(false);
     const [urlStatus, setUrlStatus] = useState<"valid" | "invalid" | null>(
         null
     );
+    const [hasInteracted, setHasInteracted] = useState(false);
+
+    useEffect(() => {
+        if (propValue !== url) {
+            setUrl(propValue || "");
+        }
+    }, [propValue,url]);
 
     const validateUrl = async (value: string) => {
         if (!value) {
@@ -63,6 +76,8 @@ export default function LinkInput({
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setUrl(value);
+        onChange?.(value);
+        setHasInteracted(true);
 
         if (value) {
             const timer = setTimeout(() => {
@@ -89,9 +104,10 @@ export default function LinkInput({
                     value={url}
                     onChange={handleUrlChange}
                     className={cn(
-                        urlStatus === "valid"
+                        error && !hasInteracted && "border-danger-main focus:ring-danger-main",
+                        (hasInteracted || !error) && urlStatus === "valid"
                             ? "border-success-main focus:border-success-main focus:ring-success-focus"
-                            : urlStatus === "invalid"
+                            : (hasInteracted || !error) && urlStatus === "invalid"
                             ? "border-danger-main focus:border-danger-main focus:ring-danger-focus"
                             : "",
                         className
@@ -104,16 +120,17 @@ export default function LinkInput({
                     </div>
                 )}
             </div>
-            {urlStatus === "valid" && (
-                <p className="flex gap-2 items-center text-xs font-normal text-green-600">
+            {error && !hasInteracted ? (
+                <p className="text-danger-main text-xs font-normal">{error}</p>
+            ) : urlStatus === "valid" ? (
+                <p className="flex gap-2 items-center text-xs font-normal text-success-main">
                     <CheckCircle /> URL address found
                 </p>
-            )}
-            {urlStatus === "invalid" && (
-                <p className="flex gap-2 items-center text-xs font-normal text-red-600">
+            ) : urlStatus === "invalid" ? (
+                <p className="flex gap-2 items-center text-xs font-normal text-danger-main">
                     <TriangleAlert /> URL address not found
                 </p>
-            )}
+            ) : null}
         </div>
     );
 }

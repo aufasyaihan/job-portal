@@ -6,17 +6,28 @@ import { Input } from "./ui/input";
 import { Check, TriangleAlert } from "./icons/validation";
 import { cn } from "@/lib/utils";
 
-interface EmailInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface EmailInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'value'> {
     label: string;
     id: string;
+    value?: string;
+    onChange?: (value: string) => void;
+    error?: string;
 }
 
-export default function EmailInput({ label, ...props }: EmailInputProps) {
-    const [email, setEmail] = useState("");
+export default function EmailInput({ label, value: propValue, onChange, error, ...props }: EmailInputProps) {
+    const [email, setEmail] = useState(propValue || "");
     const [emailStatus, setEmailStatus] = useState<
         "success" | "error" | "default"
     >("default");
     const [emailMessage, setEmailMessage] = useState("");
+    const [hasInteracted, setHasInteracted] = useState(false);
+
+    useEffect(() => {
+        if (propValue !== email) {
+            setEmail(propValue || "");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [propValue]);
 
     useEffect(() => {
         if (!email) {
@@ -42,7 +53,10 @@ export default function EmailInput({ label, ...props }: EmailInputProps) {
     }, [email]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+        const newValue = e.target.value;
+        setEmail(newValue);
+        onChange?.(newValue);
+        setHasInteracted(true);
     };
 
     return (
@@ -61,13 +75,16 @@ export default function EmailInput({ label, ...props }: EmailInputProps) {
                 value={email}
                 onChange={handleChange}
                 className={cn(
-                    emailStatus === "error" &&
+                    error && !hasInteracted && "border-danger-main focus:ring-danger-main",
+                    (hasInteracted || !error) && emailStatus === "error" &&
                         "border-danger-main focus:ring-danger-focus",
-                    emailStatus === "success" &&
+                    (hasInteracted || !error) && emailStatus === "success" &&
                         "border-neutral-40 focus:ring-primary-main"
                 )}
             />
-            {emailMessage && (
+            {error && !hasInteracted ? (
+                <p className="text-danger-main text-xs font-normal">{error}</p>
+            ) : emailMessage && (
                 <div
                     className={cn(
                         "text-xs mt-1 flex items-center gap-0.5 font-normal",

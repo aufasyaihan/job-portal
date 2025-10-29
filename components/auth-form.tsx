@@ -180,7 +180,7 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
                         disabled={isPending}
                     />
                     {state?.errors?.email && (
-                        <p className="text-sm text-red-600">
+                        <p className="text-sm text-danger-main">
                             {state.errors.email[0]}
                         </p>
                     )}
@@ -199,7 +199,7 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
                                 disabled={isPending}
                             />
                             {state?.errors?.password && (
-                                <p className="text-sm text-red-600">
+                                <p className="text-sm text-danger-main">
                                     {state.errors.password[0]}
                                 </p>
                             )}

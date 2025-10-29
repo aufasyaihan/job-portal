@@ -1,7 +1,7 @@
 "use client";
 
 import { Calendar } from "@/components/ui/calendar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input } from "./ui/input";
 import {
     CalendarDays,
@@ -15,20 +15,47 @@ import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { cn } from "@/lib/utils";
 import { Button } from "./ui/button";
 
+interface DatePickerProps {
+    id: string;
+    name?: string;
+    placeholder?: string;
+    value?: string;
+    error?: string;
+    onChange?: (value: string) => void;
+}
+
 export default function DatePicker({
     id,
+    name,
     placeholder,
-}: {
-    id: string;
-    placeholder?: string;
-}) {
-    const [date, setDate] = useState<Date | undefined>();
+    value,
+    error,
+    onChange,
+}: DatePickerProps) {
+    const [date, setDate] = useState<Date | undefined>(
+        value ? new Date(value) : undefined
+    );
     const [open, setOpen] = useState<boolean>(false);
     const [month, setMonth] = useState<Date>(date || new Date());
+    const [hasInteracted, setHasInteracted] = useState(false);
+
+    useEffect(() => {
+        if (value && value !== date?.toISOString().split("T")[0]) {
+            setDate(new Date(value));
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [value]);
 
     const handleDateSelect = (selectedDate: Date | undefined) => {
         setDate(selectedDate);
         setOpen(false);
+        setHasInteracted(true);
+        if (selectedDate) {
+            const dateString = selectedDate.toISOString().split("T")[0];
+            onChange?.(dateString);
+        } else {
+            onChange?.("");
+        }
     };
 
     const handlePreviousYear = () => {
@@ -52,19 +79,26 @@ export default function DatePicker({
             <Input
                 type="date"
                 id={id}
+                name={name}
                 value={date ? date.toISOString().split("T")[0] : ""}
-                onChange={(e) =>
-                    setDate(
-                        e.target.value ? new Date(e.target.value) : undefined
-                    )
-                }
+                onChange={(e) => {
+                    const newDate = e.target.value
+                        ? new Date(e.target.value)
+                        : undefined;
+                    setDate(newDate);
+                    setHasInteracted(true);
+                    onChange?.(e.target.value);
+                }}
                 placeholder={placeholder}
                 className="hidden sr-only"
             />
             <Popover open={open} onOpenChange={setOpen}>
                 <PopoverTrigger
                     className={cn(
-                        "inline-flex justify-between items-center w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-left text-xs focus:border-primary-main focus:outline-hidden focus:ring-1 focus:ring-primary-main"
+                        "inline-flex justify-between items-center w-full rounded-md border-2 border-neutral-300 bg-white px-3 py-2 text-left text-xs focus:border-primary-main focus:outline-hidden focus:ring-1 focus:ring-primary-main",
+                        error && !hasInteracted
+                            ? "border-danger-main"
+                            : ""
                     )}
                 >
                     <span className="flex gap-2 items-center">

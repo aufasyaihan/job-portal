@@ -89,6 +89,11 @@ export async function loginWithLink(
             validatedFields.data.email
         )}`
     );
+
+    return {
+        success: true,
+        message: "Link login telah dikirim ke email Anda.",
+    }
 }
 
 async function isUserRegistered(email: string): Promise<{
@@ -197,6 +202,11 @@ export async function registerWithLink(
             validatedFields.data.email
         )}`
     );
+
+    return {
+        success: true,
+        message: "Link registrasi telah dikirim ke email Anda.",
+    };
 }
 
 export async function register(
