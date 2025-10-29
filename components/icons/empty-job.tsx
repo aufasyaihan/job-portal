@@ -1,4 +1,4 @@
-export default function EmptyJob() {
+export default function EmptyJob({ ...props } : React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             width="286"
@@ -6,6 +6,7 @@ export default function EmptyJob() {
             viewBox="0 0 286 279"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 fillRule="evenodd"

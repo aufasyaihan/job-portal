@@ -14,6 +14,8 @@ import { Upload } from "lucide-react";
 import DatePicker from "@/components/date-picker";
 import PhoneNumberInput from "@/components/phone-number";
 import ResumeHeader from "@/components/resume/header";
+import LinkInput from "@/components/link-input";
+import EmailInput from "@/components/email-input";
 
 export default function ResumePage() {
     return (
@@ -45,7 +47,7 @@ export default function ResumePage() {
                         <div className="flex flex-col gap-2 text-xs font-bold">
                             <Label
                                 htmlFor="full_name"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
+                                className="after:content-['*'] gap-0 after:text-danger-main after:font-normal"
                             >
                                 Full Name
                             </Label>
@@ -58,7 +60,7 @@ export default function ResumePage() {
                         <div className="flex flex-col gap-2 text-xs font-bold">
                             <Label
                                 htmlFor="date_of_birth"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
+                                className="after:content-['*'] gap-0 after:text-danger-main after:font-normal"
                             >
                                 Date of Birth
                             </Label>
@@ -68,7 +70,7 @@ export default function ResumePage() {
                             />
                         </div>
                         <div className="flex flex-col gap-2 text-xs font-bold">
-                            <Label className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal">
+                            <Label className="after:content-['*'] gap-0 after:text-danger-main after:font-normal">
                                 Pronoun (gender)
                             </Label>
                             <div className="flex gap-6">
@@ -99,7 +101,7 @@ export default function ResumePage() {
                         <div className="flex flex-col gap-2 text-xs font-bold">
                             <Label
                                 htmlFor="domicile"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
+                                className="after:content-['*'] gap-0 after:text-danger-main after:font-normal"
                             >
                                 Domicile
                             </Label>
@@ -126,38 +128,22 @@ export default function ResumePage() {
                         <div className="flex flex-col gap-2 text-xs font-bold">
                             <Label
                                 htmlFor="phone_number"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
+                                className="after:content-['*'] gap-0 after:text-danger-main after:font-normal"
                             >
                                 Phone number
                             </Label>
                             <PhoneNumberInput />
                         </div>
-                        <div className="flex flex-col gap-2 text-xs font-bold">
-                            <Label
-                                htmlFor="email"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
-                            >
-                                Email
-                            </Label>
-                            <Input
-                                type="email"
-                                id="email"
-                                placeholder="Enter your email address"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-2 text-xs font-bold">
-                            <Label
-                                htmlFor="linkedin"
-                                className="after:content-['*'] after:ml-0.5 after:text-danger-main after:font-normal"
-                            >
-                                Link Linkedin
-                            </Label>
-                            <Input
-                                type="url"
-                                id="linkedin"
-                                placeholder="https://linkedin.com/in/username"
-                            />
-                        </div>
+                        <EmailInput
+                            label="Email"
+                            id="email"
+                            placeholder="Enter your email address"
+                        />
+                        <LinkInput
+                            label="Link LinkedIn"
+                            id="linkedin"
+                            placeholder="https://www.linkedin.com/in/username"
+                        />
                     </div>
                 </CardContent>
             </Card>

@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import Password from "./ui/password";
 import { Button } from "./ui/button";
@@ -17,6 +16,7 @@ import {
 import Error from "./error";
 import { useSearchParams } from "next/navigation";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import EmailInput from "./email-input";
 
 interface AuthFormProps {
     type?: "login" | "register";
@@ -59,11 +59,6 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
         {}
     );
 
-    const [email, setEmail] = useState("");
-    const [emailStatus, setEmailStatus] = useState<
-        "success" | "error" | "default"
-    >("default");
-    const [emailMessage, setEmailMessage] = useState("");
     const searchParams = useSearchParams();
     const [urlError, setUrlError] = useState<string | null>(null);
 
@@ -118,29 +113,6 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
         }
     }, [state]);
 
-    useEffect(() => {
-        if (!email) {
-            setEmailStatus("default");
-            setEmailMessage("");
-            return;
-        }
-
-        const timeoutId = setTimeout(() => {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isValid = emailRegex.test(email);
-
-            if (!isValid) {
-                setEmailStatus("error");
-                setEmailMessage("Alamat email tidak valid");
-            } else {
-                setEmailStatus("success");
-                setEmailMessage("Alamat email teridentifikasi");
-            }
-        }, 500);
-
-        return () => clearTimeout(timeoutId);
-    }, [email, type]);
-
     const handleToggleMethod = () => {
         setMethod((prev) => (prev === "password" ? "link" : "password"));
     };
@@ -186,34 +158,26 @@ export default function AuthForm({ type = "login" }: AuthFormProps) {
                             </TooltipTrigger>
                             <TooltipContent
                                 side="right"
-                                className="max-w-[377px]"
+                                className="max-w-[350px]"
                             >
                                 <p className="leading-tight">
                                     Fitur login dengan kata sandi akan dihapus.
                                     Pastikan email mu{" "}
                                     <span className="font-bold">valid</span>{" "}
-                                    untuk
+                                    untuk{" "}
                                     <span className="font-bold">
                                         login melalui email atau Google
                                     </span>
                                 </p>
                             </TooltipContent>
                         </Tooltip>
-                    ) : (
-                        <Label htmlFor="email" className="text-sm">
-                            Email
-                        </Label>
-                    )}
-                    <Input
+                    ) : null}
+                    <EmailInput
                         id="email"
                         name="email"
-                        type="email"
-                        required
+                        label={method === "password" ? "" : "Email"}
+                        placeholder=""
                         disabled={isPending}
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        status={emailStatus}
-                        statusMessage={emailMessage}
                     />
                     {state?.errors?.email && (
                         <p className="text-sm text-red-600">

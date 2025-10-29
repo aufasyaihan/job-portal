@@ -1,4 +1,4 @@
-export default function EmailSent() {
+export default function EmailSent({ ...props } : React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             width="184"
@@ -6,6 +6,7 @@ export default function EmailSent() {
             viewBox="0 0 184 184"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            {...props}
         >
             <path
                 d="M142.863 56.8172L124.262 65.6411L158.165 73.512L145.286 57.3716C145.005 57.0189 144.612 56.7721 144.171 56.6714C143.731 56.5707 143.27 56.6221 142.863 56.8172Z"

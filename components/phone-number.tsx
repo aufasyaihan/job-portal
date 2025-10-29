@@ -73,7 +73,7 @@ export default function PhoneNumberInput() {
                 type="number"
                 id="phone_number"
                 placeholder="Enter your phone number"
-                className="flex-1 border-0 focus:ring-0 outline-0 [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none"
+                className="flex-1 border-0 focus:ring-0 outline-0 [-moz-appearance:textfield] [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none font-normal"
             />
         </div>
     );

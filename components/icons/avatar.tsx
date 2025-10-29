@@ -1,4 +1,4 @@
-export default function AvatarIcon() {
+export default function AvatarIcon({ ...props } : React.SVGProps<SVGSVGElement>) {
     return (
         <svg
             width="128"
@@ -7,6 +7,7 @@ export default function AvatarIcon() {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
+            {...props}
         >
             <path
                 d="M0 16C0 7.16344 7.16344 0 16 0H112C120.837 0 128 7.16344 128 16V112C128 120.837 120.837 128 112 128H16C7.16344 128 0 120.837 0 112V16Z"
