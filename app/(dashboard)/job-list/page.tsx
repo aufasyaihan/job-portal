@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import JobCardSkeleton from "@/components/skeleton/job-card";
 import EmptyJob from "@/components/empty-job";
 import { getAllJobs } from "@/data-access-layer/job";
+import MainHeader from "@/components/navigations/main-header";
 
 const getDummyJobDescription = (title: string): string[] => {
     const descriptions: { [key: string]: string[] } = {
@@ -81,14 +82,17 @@ async function Jobs() {
 export default function JobListPage() {
     return (
         <JobProvider>
-            <div className="flex gap-6 h-full">
-                <div className="flex flex-col gap-2 w-1/3 h-full pr-[22px] overflow-y-auto">
-                    <Suspense fallback={<JobCardSkeleton />}>
-                        <Jobs />
-                    </Suspense>
+            <>
+                <MainHeader />
+                <div className="flex gap-6 h-full px-[104px] py-10">
+                    <div className="flex flex-col gap-2 w-1/3 h-full max-h-[calc(100dvh-8.48rem)] pr-[22px] overflow-y-auto scrollbar">
+                        <Suspense fallback={<JobCardSkeleton />}>
+                            <Jobs />
+                        </Suspense>
+                    </div>
+                    <JobDetail />
                 </div>
-                <JobDetail />
-            </div>
+            </>
         </JobProvider>
     );
 }
