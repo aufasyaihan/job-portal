@@ -44,7 +44,7 @@ export async function submitResume(
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    console.log("Resume submitted:", validatedFields.data);
+    // console.log("Resume submitted:", validatedFields.data);
 
     redirect("/resume/success");
 

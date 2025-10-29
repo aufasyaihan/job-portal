@@ -1,10 +1,10 @@
 import JobCard from "@/components/candidate/job-card";
 import JobDetail from "@/components/candidate/job-detail";
 import { JobProvider } from "@/contexts/job-context";
-import EmptyJob from "@/components/icons/empty-job";
-import { createClient } from "@/lib/supabase/server";
 import { Suspense } from "react";
 import JobCardSkeleton from "@/components/skeleton/job-card";
+import EmptyJob from "@/components/empty-job";
+import { getAllJobs } from "@/data-access-layer/job";
 
 const getDummyJobDescription = (title: string): string[] => {
     const descriptions: { [key: string]: string[] } = {
@@ -42,25 +42,7 @@ const getDummyJobDescription = (title: string): string[] => {
 
 async function Jobs() {
     try {
-        const supabase = await createClient();
-        const { data: jobs, error } = await supabase.from("jobs").select(`
-      id,
-      slug,
-      title,
-      status,
-      job_salary_range (
-        min_salary,
-        max_salary,
-        currency,
-        display_text
-      ),
-      job_list_card (
-        badge,
-        started_on_text,
-        cta
-      )
-    `);
-        if (error) throw error;
+        const jobs = await getAllJobs();
 
         const jobsWithDescriptions = jobs?.map((job) => ({
             ...job,
@@ -71,19 +53,7 @@ async function Jobs() {
 
         if (jobsWithDescriptions?.length === 0) {
             return (
-                <div className="flex-1 shadow-none flex items-center justify-center h-full">
-                    <div className="flex flex-col items-center gap-4 text-center">
-                        <EmptyJob />
-                        <div className="flex flex-col gap-1">
-                            <h3 className="font-bold text-xl text-neutral-90">
-                                No job openings available
-                            </h3>
-                            <p className="text-sm text-neutral-90">
-                                Please wait for the next batch of openings.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <EmptyJob message="Please wait for the next batch of openings." />
             );
         }
         if (jobsWithDescriptions && jobsWithDescriptions.length > 0) {

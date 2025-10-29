@@ -93,50 +93,7 @@ export async function loginWithLink(
     return {
         success: true,
         message: "Link login telah dikirim ke email Anda.",
-    }
-}
-
-async function isUserRegistered(email: string): Promise<{
-    exists: boolean;
-    isValid: boolean;
-}> {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const isValid = emailRegex.test(email);
-
-    if (!isValid) {
-        return { exists: false, isValid: false };
-    }
-
-    const supabase = await createClient();
-
-    const { data, error } = await supabase.auth.signUp({
-        email,
-        password: "TempCheckPassword123!@#$%",
-        options: {
-            emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
-        },
-    });
-
-    if (error) {
-        const errorMessage = error.message.toLowerCase();
-        if (
-            errorMessage.includes("already") ||
-            errorMessage.includes("registered") ||
-            errorMessage.includes("exists") ||
-            errorMessage.includes("duplicate")
-        ) {
-            return { exists: true, isValid: true };
-        }
-    }
-
-    if (
-        data?.user &&
-        (!data?.user?.identities || data?.user?.identities?.length === 0)
-    ) {
-        return { exists: true, isValid: true };
-    }
-
-    return { exists: false, isValid: true };
+    };
 }
 
 export async function registerWithLink(
@@ -160,19 +117,16 @@ export async function registerWithLink(
         };
     }
 
-    const userCheck = await isUserRegistered(validatedFields.data.email);
+    const supabase = await createClient();
 
-    if (!userCheck.isValid) {
-        return {
-            success: false,
-            errors: {
-                email: ["Alamat email tidak valid"],
-            },
-        };
-    }
+    const { data } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", validatedFields.data.email)
+        .single();
 
-    if (userCheck.exists) {
-        console.log("Email already registered");
+    if (data) {
+        console.log("Email already registered:", validatedFields.data.email);
         return {
             success: false,
             message:
@@ -180,17 +134,25 @@ export async function registerWithLink(
         };
     }
 
-    const supabase = await createClient();
-
     const { error } = await supabase.auth.signInWithOtp({
         email: validatedFields.data.email,
         options: {
             emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`,
+            shouldCreateUser: true,
         },
     });
 
     if (error) {
         console.log("Supabase OTP error:", error);
+
+        if (error.message.includes("only request this after")) {
+            return {
+                success: false,
+                message:
+                    "Email baru saja dikirim. Mohon tunggu beberapa saat sebelum mencoba lagi.",
+            };
+        }
+
         return {
             success: false,
             message: "Gagal mengirim link registrasi. Silakan coba lagi.",
@@ -241,6 +203,21 @@ export async function register(
     }
 
     const supabase = await createClient();
+
+    const { data: dataEmail } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", validatedFields.data.email)
+        .single();
+
+    if (dataEmail) {
+        console.log("Email already registered:", validatedFields.data.email);
+        return {
+            success: false,
+            message:
+                "Email ini sudah terdaftar sebagai akun di Rakamin Academy.",
+        };
+    }
 
     const { data, error } = await supabase.auth.signUp({
         email: validatedFields.data.email,
