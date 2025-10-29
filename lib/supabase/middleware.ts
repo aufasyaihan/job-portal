@@ -53,7 +53,7 @@ export async function updateSession(request: NextRequest) {
         "/auth/callback",
         "/auth/email-sent",
     ];
-    
+
     const isPublicRoute = publicRoutes.some((route) =>
         request.nextUrl.pathname.startsWith(route)
     );
@@ -68,6 +68,27 @@ export async function updateSession(request: NextRequest) {
         const url = request.nextUrl.clone();
         url.pathname = "/";
         return NextResponse.redirect(url);
+    }
+
+    if (user) {
+        const userRole = user.user_metadata?.role?.name;
+        const pathname = request.nextUrl.pathname;
+
+        const isAdminRoute = pathname.startsWith("/admin/jobs");
+        const isUserRoute =
+            pathname.startsWith("/job-list") || pathname.startsWith("/resume");
+
+        if (isAdminRoute && userRole !== "admin") {
+            const url = request.nextUrl.clone();
+            url.pathname = "/job-list"
+            return NextResponse.redirect(url);
+        }
+
+        if (isUserRoute && userRole === "admin") {
+            const url = request.nextUrl.clone();
+            url.pathname = "/admin/jobs";
+            return NextResponse.redirect(url);
+        }
     }
 
     // IMPORTANT: You *must* return the supabaseResponse object as it is.
