@@ -7,6 +7,8 @@ import EmptyJob from "@/components/empty-job";
 import { getAllJobs } from "@/data-access-layer/job";
 import MainHeader from "@/components/navigations/main-header";
 
+export const dynamic = "force-dynamic";
+
 const getDummyJobDescription = (title: string): string[] => {
     const descriptions: { [key: string]: string[] } = {
         "Frontend Developer": [
