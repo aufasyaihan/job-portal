@@ -5,9 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Button } from "../ui/button";
 import rakamin from "@/assets/rakamin.png";
 import { useJob } from "@/contexts/job-context";
+import { useRouter } from "next/navigation";
 
 export default function JobDetail() {
     const { selectedJob } = useJob();
+    const router = useRouter();
 
     if (!selectedJob) {
         return <div className="flex-1" />;
@@ -39,7 +41,7 @@ export default function JobDetail() {
                         </div>
                     </div>
                 </div>
-                <Button variant="secondary">Apply</Button>
+                <Button variant="secondary" onClick={() => router.push("/resume")}>Apply</Button>
             </CardHeader>
             <CardContent>
                 {selectedJob.description &&

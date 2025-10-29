@@ -1,17 +1,11 @@
 "use client";
 
 import { useAuth } from "@/contexts/auth-context";
-import {
-    Dropdown,
-    DropdownContent,
-    DropdownItem,
-    DropdownSeparator,
-    DropdownTrigger,
-} from "../ui/dropdown";
 import profile from "@/assets/avatar.png";
 import { LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 
 export default function ProfileDropdown() {
     const { user, loading, signOut } = useAuth();
@@ -35,8 +29,8 @@ export default function ProfileDropdown() {
     const avatarUrl = user.user_metadata?.avatar_url;
 
     return (
-        <Dropdown>
-            <DropdownTrigger asChild>
+        <DropdownMenu>
+            <DropdownMenuTrigger asChild>
                 <button className="relative h-full aspect-square cursor-pointer hover:opacity-80 transition-opacity duration-200 rounded-full border border-neutral-40 overflow-hidden mr-5">
                     <Image
                         src={avatarUrl || profile}
@@ -46,8 +40,8 @@ export default function ProfileDropdown() {
                         sizes="48px"
                     />
                 </button>
-            </DropdownTrigger>
-            <DropdownContent align="end" className="w-56">
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
                 <div className="px-4 py-3">
                     <p className="text-sm font-medium">{user.email}</p>
                     <p className="text-xs text-gray-500">
@@ -57,15 +51,15 @@ export default function ProfileDropdown() {
                             : user.user_metadata?.full_name || "User"}
                     </p>
                 </div>
-                <DropdownSeparator />
-                <DropdownItem
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
                     onClick={handleSignOut}
                     className="gap-2 text-red-600 hover:bg-red-50"
                 >
                     <LogOut className="size-4" />
                     <span>Keluar</span>
-                </DropdownItem>
-            </DropdownContent>
-        </Dropdown>
+                </DropdownMenuItem>
+            </DropdownMenuContent>
+        </DropdownMenu>
     );
 }
